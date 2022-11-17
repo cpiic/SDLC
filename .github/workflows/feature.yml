@@ -21,14 +21,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-      uses: actions/checkout@v2.5.0
+        uses: actions/checkout@v2.5.0
 
       - name: Run tests
-      run: |
-        if [[ "$NAME" = "sean" ]]; then
-          echo "pass"
-          exit 0
-        else
-          echo "fail"
-          exit 1
-        fi
+        env:
+          NAME: sean
+        run: |
+          if [[ "$NAME" = "sean" ]]; then
+            echo "pass"
+            exit 0
+          else
+            echo "fail"
+            exit 1
+          fi
