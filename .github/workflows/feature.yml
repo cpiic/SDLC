@@ -10,9 +10,8 @@ jobs:
     name: Build Docker Image
     runs-on: ubuntu-latest
     steps:
-      -name: Checkout
-      uses: actions/checkout@v2.5.0
+      - name: Checkout
+        uses: actions/checkout@v2.5.0
 
-      -name: Build Image
-      run: docker build -t myimage:latexst .
-
+      - name: Build Image
+        run: docker build -t myimage:latexst .
