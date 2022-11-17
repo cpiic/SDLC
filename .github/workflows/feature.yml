@@ -9,12 +9,18 @@ jobs:
   build-image:
     name: Build Docker image
     runs-on: ubuntu-latest
+    outputs:
+      image-name: ${{ steps.export.outputs.image }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2.5.0
 
       - name: Build image
-        run: docker build -t myimage:latest .
+        #run: docker build -t myimage:latest .
+        run: docker build -t ${{ github.event.repository.name }}:latest .
+
+      - name: Export image output
+        run: echo "image=${{ github.event.repository.name }}" >> $GITHUB_OUTPUT
 
   units-tests:
     name: Unit tests
@@ -26,10 +32,8 @@ jobs:
         uses: actions/checkout@v2.5.0
 
       - name: Run tests
-        env:
-          NAME: sean
         run: |
-          if [[ "$NAME" = "sean" ]]; then
+          if [[ "${{needs.build-image.outputs.image-name}}" = "${{ github.event.repository.name }}" ]]; then
             echo "pass"
             exit 0
           else
